@@ -1,0 +1,4 @@
+cloud-backup-env
+.idea
+database.sqlite3
+__pycache__
