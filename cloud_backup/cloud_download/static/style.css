@@ -1,0 +1,169 @@
+h1 {
+    text-align: center;
+}
+
+form {
+    padding-top:75px;
+    margin:auto;
+    width:30%;
+    text-align:center;
+}
+
+
+input {
+    padding:10px;
+    margin:10px;
+}
+
+
+input[type=text] {
+    width:100%;
+    border-radius:2px;
+    margin:auto;
+    border:0px;
+    background:lightgrey;
+}
+
+input[type=text]:hover {
+    width:100%;
+    border-radius:2px;
+    margin:auto;
+    border:0px;
+    background:lightgrey;
+}
+
+
+input[type=password] {
+    width:100%;
+    border-radius:2px;
+    margin:auto;
+    border:0px;
+    background:lightgrey;
+}
+
+input[type=password]:hover {
+    width:100%;
+    border-radius:2px;
+    margin:auto;
+    border:0px;
+    background:lightgrey;
+}
+
+input[type=submit] {
+    margin:auto;
+    color:white;
+    background-color:green;
+    border-radius:8px;
+    width:50%;
+}
+
+input[type=submit]:hover {
+    margin:auto;
+    color:black;
+    background-color:lightgreen;
+    border-radius:8px;
+    width:50%;
+}
+
+
+table {
+    text-align:center;
+    margin:auto;
+/*    width:30%; */
+    border-collapse:collapse;
+}
+
+th, td {
+    border:0px;
+    text-align:center;
+    font-size: 25px;
+}
+
+i {
+    font-size: 150px;
+}
+
+.classification {
+	min-width: 150px;
+}
+
+.back {
+    background-color:green;
+    border:0px;
+    color:white;
+    position:fixed
+    left:0;
+    bottom:0;
+    padding:10px;
+    margin:10px;
+    text-decoration:none;
+    border-radius:8px;
+    text-align:center;
+    align:center;
+}
+
+.back:hover {
+    background-color:lightgreen;
+    border:0px;
+    color:black;
+    position:fixed
+    left:0;
+    bottom:0;
+    padding:10px;
+    margin:10px;
+    text-decoration:none;
+    border-radius:8px;
+}
+
+div {
+    padding-top:75px;
+    margin:auto;
+    width:30%;
+    text-align:center;
+}
+
+button {
+    margin:auto;
+    color:white;
+    background-color:green;
+    border-radius:8px;
+    width:50%;
+}
+
+button:hover {
+    margin:auto;
+    color:black;
+    background-color:lightgreen;
+    border-radius:8px;
+    width:50%;
+}
+
+
+.download {
+     align:center;
+    text-align:center;
+    background-color:blue;
+    border:0px;
+    color:white;
+    position:fixed
+    left:0;
+    bottom:0;
+    padding:10px;
+    margin:10px;
+    text-decoration:none;
+    border-radius:8px;
+}
+
+input[type=checkbox] {
+    text-align: left;
+    width: 10%;
+}
+
+#aclass {
+    text-align:left;
+}
+
+#back {
+    text-align:center;
+    align:center;
+}

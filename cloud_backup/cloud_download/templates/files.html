@@ -1,0 +1,31 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body style="background-color:#f9f1f1">
+        <h1>Cloud Backup Application</h1>
+
+        <p>
+        <form id="aclass" action="https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.3.11.tar.xz">
+            <input type="checkbox" onclick="toggle(this)" />Select All <br/>
+            {% for file in files %}
+            <input type="checkbox" value="{{ file }}" name="box">{{ file }} <br />
+            {% endfor %}
+            <input type="submit" value="Download">
+            <p />
+            <a class="back" id="back" href="">Start Over</a>
+        </form>
+
+    </body>
+
+    <script>
+        function toggle(source) {
+          checkboxes = document.getElementsByName('box');
+          for(var i=0, n=checkboxes.length;i<n;i++) {
+            checkboxes[i].checked = source.checked;
+          }
+        }
+    </script>
+
+</html>
+

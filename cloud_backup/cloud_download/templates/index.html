@@ -1,0 +1,35 @@
+
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+        <meta charset="UTF-8">
+    </head>
+    <body style="background-color:#f9f1f1">
+        <h1>Cloud Backup Application</h1>
+
+        <form action="" method="POST">
+          <!-- <input type=text name="aurl" placeholder="Enter a URL to your cloud account" /> -->
+          {% csrf_token %}
+          <select id="platform">
+            {% for platform in platforms %}
+            <option value="{{platform}}">{{platform}}</option>
+            {% endfor %}
+          </select>
+            <p />
+          <input type="submit" value="Submit">
+        </form>
+        <div>
+          <!-- <button onclick="visit_url()">Submit</button> -->
+        </div>
+
+    </body>
+
+    <script>
+        function visit_url() {
+            prompt("Username:", "uname");
+            prompt("Password:", "***");
+            window.location.href = 'files/';
+        }
+    </script>
+</html>
+
