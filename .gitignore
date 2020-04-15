@@ -2,3 +2,5 @@ cloud-backup-env
 .idea
 database.sqlite3
 __pycache__
+Api_keys.py
+Api_keys.pyc
