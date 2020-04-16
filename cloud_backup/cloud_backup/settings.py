@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'cloud_backup.apps.CloudDownloadConfig'
+    'cloud_download.apps.CloudDownloadConfig'
 ]
 
 MIDDLEWARE = [
