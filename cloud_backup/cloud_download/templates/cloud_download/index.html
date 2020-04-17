@@ -5,12 +5,13 @@
         <link rel="stylesheet" type="text/css" href="{% static 'cloud_download/style.css' %}">
         <meta charset="UTF-8">
     </head>
+
     <body style="background-color:#f9f1f1">
         <h1>Cloud Backup Application</h1>
 
-        <form action="/cloud/" method="post">
+        <form action="" method="post">
           {% csrf_token %}
-          <select id="platform">
+          <select id="platform" name="platform">
             {% for platform in platforms %}
             <option value="{{platform}}">{{platform}}</option>
             {% endfor %}
@@ -18,8 +19,6 @@
             <p />
           <input type="submit" value="Submit">
         </form>
-        <div>
-        </div>
 
     </body>
 </html>

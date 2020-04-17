@@ -1,23 +1,24 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from django.http import HttpResponseNotFound
 
 
 class Index(View):
-    template = 'cloud_download/index.html'
+    index_template = 'cloud_download/index.html'
 
     def get(self, request):
-        if request.method == 'POST':
-            print("post")
-            print(request.body)
-            return
-        elif request.method == 'GET':
-            print("get")
-            context = {'platforms': ['google', 'dropbox', 'aws']}
-            return render(request, self.template, context)
-        else:
-            print("404")
-            return HttpResponseNotFound('404')
+        print("get")  # DEBUGGING, remove later
+
+        # Here the platforms needs to be dynamic list of the platforms, not sure how to do that yet
+        context = {'platforms': ['google', 'dropbox', 'aws']}
+        return render(request, self.index_template, context)
+
+    def post(self, request):
+        # Right now we just print out the user input (its the csrf token and the platform at the end
+        # Here the redirect will point towards cloud authentication?
+        print("post")  # DEBUGGING, remove later
+        print(request.body)  # DEBUGGING, remove later
+        return redirect('files/')
+
 
 class Files(View):
     template = 'cloud_download/files.html'
