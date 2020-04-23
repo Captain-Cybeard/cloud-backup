@@ -1,7 +1,23 @@
-#!/bin/python
+#!/usr/bin/env python3
+
+""" Dropbox Platform
+Application:     Cloud Backup
+File:                 /cloud_backup/cloud_download/platforms/dropbox_script.py
+Description:    Dropbox cloud platform
+Language:       Python 3.8 Django 2.2
+Dev Env:         Linux x64
+
+Authors:          Trevor Surface
+Class:              CptS 421/423 Fall '19 Spring '20
+University:    Washington State University Tri-CIties
+"""
+
 import dropbox
 import json
 from Api_keys import *
+
+__author__ = "Trevor Surface"
+
 
 #####################################################################
 # dropbox.oauth.DropboxOAuth2FlowNoRedirect(key, secret)

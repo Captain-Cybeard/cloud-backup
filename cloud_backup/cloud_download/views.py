@@ -1,6 +1,26 @@
+#!/usr/bin/env python3
+
+""" URL views for cloud backup application
+Application:     Cloud Backup
+File:                 /cloud_backup/cloud_download/views.py
+Description:    Django Views / web pages
+Language:       Python 3.8 Django 2.2
+Dev Env:         Linux x64
+
+Authors:          Ryan Breitenfeldt
+                        Noah Farris
+                        Trevor Surface
+                        Kyle Thomas
+Class:              CptS 421/423 Fall '19 Spring '20
+University:    Washington State University Tri-CIties
+"""
+
 from django.shortcuts import render, redirect
 from django.views import View
 from . import platforms
+
+__authors__ = ['Ryan Breitenfeldt', 'Noah Farris', 'Trevor Surface', 'Kyle Thomas']
+
 
 class Index(View):
     index_template = 'cloud_download/index.html'

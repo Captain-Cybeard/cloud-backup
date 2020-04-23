@@ -1,3 +1,18 @@
+#!/usr/bin/env python3
+
+""" Google Drive Cloud Platform
+
+Application:     Cloud Backup
+File:                 /cloud_backup/cloud_download/platforms/gDriveDownloader.py
+Description:    Google Drive Cloud Platform
+Language:       Python 3.8 Django 2.2
+Dev Env:         Linux x64
+
+Authors:          Ryan Breitenfeldt
+Class:              CptS 421/423 Fall '19 Spring '20
+University:    Washington State University Tri-CIties
+"""
+
 from __future__ import print_function
 import pickle
 import os.path
@@ -9,6 +24,8 @@ from google.auth.transport.requests import Request
 import flask
 import google.oauth2.credentials
 import google_auth_oauthlib.flow
+
+__author__ = 'Ryan Breitenfeldt'
 
 #googleapiclient.discovery.build
 #googleapiclient.discovery.build.files().list()

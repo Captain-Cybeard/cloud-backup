@@ -1,4 +1,18 @@
 # Cloud Backup Application
+Language:       Python 3.8 Django 2.2
+
+Dev Env:         Linux x64
+
+Authors:          Ryan Breitenfeldt,
+                        Noah Farris,
+                        Trevor Surface,
+                        Kyle Thomas
+                        
+Class:              CptS 421/423 Fall 2019/Spring 2020
+
+University:    Washington State University Tri-CIties
+
+### Development
 
 #### Making a Python Virtual Environment:
 
@@ -34,3 +48,10 @@ Then visit: https://localhost:8000/cloud
 Viewable from any pc on the network:
 
 `$ python manage.py runserver 0:8000`
+
+#### Adding a Cloud Platform
+Add the file with the new cloud platform class into `cloud_download/platforms`
+
+Then import the file in `cloud_download/platforms/__init__.py`
+
+Finally, add the platform inside `cloud_download/views.py`
