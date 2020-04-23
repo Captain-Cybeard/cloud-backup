@@ -29,7 +29,7 @@ Viewing on the same pc
 
 `$ python manage.py runserver`
 
-Then visit: https://localhost:8000
+Then visit: https://localhost:8000/cloud
 
 Viewable from any pc on the network:
 
