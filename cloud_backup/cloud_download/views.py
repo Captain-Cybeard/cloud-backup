@@ -1,22 +1,34 @@
 from django.shortcuts import render, redirect
 from django.views import View
-
+from . import platforms
 
 class Index(View):
     index_template = 'cloud_download/index.html'
 
-    def get(self, request):
-        print("get")  # DEBUGGING, remove later
+    # not sure if this is the best way to do this?
+    # Will have to match if/else block in the post() method
+    platforms = ['google', 'dropbox', 'aws']
+    cloud = None  # the user selected cloud platform
 
-        # Here the platforms needs to be dynamic list of the platforms, not sure how to do that yet
-        context = {'platforms': ['google', 'dropbox', 'aws']}
+    def get(self, request):
+        context = {'platforms': self.platforms}
         return render(request, self.index_template, context)
 
     def post(self, request):
-        # Right now we just print out the user input (its the csrf token and the platform at the end
-        # Here the redirect will point towards cloud authentication?
-        print("post")  # DEBUGGING, remove later
-        print(request.body)  # DEBUGGING, remove later
+        platform = request.POST['platform']
+        if platform == 'google':
+            print(platform)  # DEBUGGING
+            cloud = platforms.gDriveDownloader.GDriveDownloader()
+        elif platform == 'dropbox':
+            print(platform)  # DEBUGGING
+            cloud = platforms.dropbox_script.DropBox()
+            print(cloud)
+        elif platform == 'aws':
+            print(platform)  # DEBUGGING
+        else:
+            print("Unsupported platform")
+            return redirect('index/')
+
         return redirect('files/')
 
 
