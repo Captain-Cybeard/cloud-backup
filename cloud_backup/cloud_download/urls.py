@@ -23,5 +23,9 @@ __authors__ = ['Ryan Breitenfeldt', 'Noah Farris', 'Trevor Surface', 'Kyle Thoma
 
 urlpatterns = [
     path('', views.Index.as_view(), name='index'),
+    ##############################################
+    path('dropbox-auth-start/', views.dropbox.dropbox_authentication_start), #Paths added to allow auth function to run
+    path('dropbox-auth-finish/', views.dropbox.dropbox_authentication_finish), #Paths added to allow auth finish to complete
+    ##############################################
     path('files/', views.Files.as_view(), name='files'),
 ]

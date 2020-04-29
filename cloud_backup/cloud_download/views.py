@@ -21,14 +21,15 @@ from . import platforms
 
 __authors__ = ['Ryan Breitenfeldt', 'Noah Farris', 'Trevor Surface', 'Kyle Thomas']
 
+##############################
+global cloud, dropbox #Need to add the other platforms as needed
+cloud = ""
+dropbox = platforms.dropbox_script.DropBox()
+##############################
 
 class Index(View):
     index_template = 'cloud_download/index.html'
-
-    # not sure if this is the best way to do this?
-    # Will have to match if/else block in the post() method
     platforms = ['google', 'dropbox', 'aws']
-    cloud = None  # the user selected cloud platform
 
     def get(self, request):
         context = {'platforms': self.platforms}
@@ -36,13 +37,15 @@ class Index(View):
 
     def post(self, request):
         platform = request.POST['platform']
+        global cloud
         if platform == 'google':
             print(platform)  # DEBUGGING
             cloud = platforms.gDriveDownloader.GDriveDownloader()
-        elif platform == 'dropbox':
-            print(platform)  # DEBUGGING
-            cloud = platforms.dropbox_script.DropBox()
-            print(cloud)
+        ############################
+        elif platform == 'dropbox': #The following are the recomended changes
+            cloud = 'dropbox' #For the Files class
+            return redirect('dropbox-auth-start/') #Calls the dropbox authentication
+        ############################
         elif platform == 'aws':
             print(platform)  # DEBUGGING
         else:
@@ -51,14 +54,15 @@ class Index(View):
 
         return redirect('files/')
 
-
 class Files(View):
     template = 'cloud_download/files.html'
-
+    #global cloud
     def get(self, request):
-        context = {'files': ['/home', '/home/bart', '/root', 'hello.c']}
+        ######################################
+        if cloud == 'dropbox': #Checks value set by Index class 
+            context = dropbox.dropbox_format_json #Uses dropbox class to see data
+        ######################################
         return render(request, self.template, context)
 
-
 def index_redirect(request):
-    return redirect('index/')
+    return redirect('index/cloud')
