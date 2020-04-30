@@ -24,6 +24,10 @@ from google.auth.transport.requests import Request
 import flask
 import google.oauth2.credentials
 import google_auth_oauthlib.flow
+from apiclient import discovery
+import httplib2
+from oauth2client import client
+import requests
 
 __author__ = 'Ryan Breitenfeldt'
 
@@ -53,25 +57,40 @@ class GDriveDownloader():
                 self.GDriveDownloader_creds = flow.run_local_server(port=0)
 
     #https://developers.google.com/identity/protocols/oauth2/web-server
+    #https://developers.google.com/identity/sign-in/web/server-side-flow
     def GDriveDownloader_redirect_authentication(self):
-        auth_flask = flask()
-        flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file('client_secret_204730000731-c0gs1os80ucalj6mto9c1etmaee70is7.apps.googleusercontent.com.json', self.GDriveDownloader_SCOPES)
-        flow.redirect_uri = 'https://www.google.com'
-        authorization_url, state = flow.authorization_url(access_type='offline',include_granted_scopes='true')
-        auth_flask.redirect(authorization_url)
-        auth_flask.session['state'] = state
-        flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file('client_secret_204730000731-c0gs1os80ucalj6mto9c1etmaee70is7.apps.googleusercontent.com.json',scopes=self.GDriveDownloader_SCOPES,state=state)
-        flow.redirect_uri = flask.url_for('https://www.google.com', _external=True)
-        authorization_response = auth_flask.request.url
-        flow.fetch_token(authorization_response=authorization_response)
-        self.GDriveDownloader_creds = flow.credentials
-        auth_flask.session['credentials'] = {
-            'token': self.GDriveDownloader_creds.token,
-            'refresh_token': self.GDriveDownloader_creds.refresh_token,
-            'token_uri': self.GDriveDownloader_creds.token_uri,
-            'client_id': self.GDriveDownloader_creds.client_id,
-            'client_secret': self.GDriveDownloader_creds.client_secret,
-            'scopes': self.GDriveDownloader_creds.scopes}
+        # (Receive auth_code by HTTPS POST)
+        auth_code = requests.post('http://localhost:8000')
+        # If this request does not have `X-Requested-With` header, this could be a CSRF
+        if not request.headers.get('X-Requested-With'):
+            abort(403)
+        # Set path to the Web application client_secret_*.json file you downloaded from the
+        # Google API Console: https://console.developers.google.com/apis/credentials
+        CLIENT_SECRET_FILE = 'client_secret_204730000731-c0gs1os80ucalj6mto9c1etmaee70is7.apps.googleusercontent.com.json'
+        # Exchange auth code for access token, refresh token, and ID token
+        credentials = client.credentials_from_clientsecrets_and_code( CLIENT_SECRET_FILE,self.GDriveDownloader_SCOPES,auth_code)
+        # Call Google API
+        http_auth = credentials.authorize(httplib2.Http())
+        self.GDriveDownloader_service = discovery.build('drive', 'v3', http=http_auth)
+        
+        #auth_flask = flask()
+        #flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file('client_secret_204730000731-c0gs1os80ucalj6mto9c1etmaee70is7.apps.googleusercontent.com.json', self.GDriveDownloader_SCOPES)
+        #flow.redirect_uri = 'https://www.google.com'
+        #authorization_url, state = flow.authorization_url(access_type='offline',include_granted_scopes='true')
+        #auth_flask.redirect(authorization_url)
+        #auth_flask.session['state'] = state
+        #flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file('client_secret_204730000731-c0gs1os80ucalj6mto9c1etmaee70is7.apps.googleusercontent.com.json',scopes=self.GDriveDownloader_SCOPES,state=state)
+        #flow.redirect_uri = flask.url_for('https://www.google.com', _external=True)
+        #authorization_response = auth_flask.request.url
+        #flow.fetch_token(authorization_response=authorization_response)
+        #self.GDriveDownloader_creds = flow.credentials
+        #auth_flask.session['credentials'] = {
+            #'token': self.GDriveDownloader_creds.token,
+            #'refresh_token': self.GDriveDownloader_creds.refresh_token,
+            #'token_uri': self.GDriveDownloader_creds.token_uri,
+            #'client_id': self.GDriveDownloader_creds.client_id,
+            #'client_secret': self.GDriveDownloader_creds.client_secret,
+            #'scopes': self.GDriveDownloader_creds.scopes}
 
 
     def GDriveDownloader_save_Token(self):
