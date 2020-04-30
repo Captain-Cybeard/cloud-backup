@@ -16,6 +16,6 @@ Class:              CptS 421/423 Fall '19 Spring '20
 University:    Washington State University Tri-CIties
 """
 
-from . import dropbox_script, gDriveDownloader
+from . import aws
 
 __authors__ = ['Ryan Breitenfeldt', 'Noah Farris', 'Trevor Surface', 'Kyle Thomas']
