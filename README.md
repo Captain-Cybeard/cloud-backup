@@ -41,6 +41,8 @@ Then commit the new requirements.txt to the repo.
 #### Running the webserver:
 Viewing on the same pc
 
+`$ python manage.py migrate`
+
 `$ python manage.py runserver`
 
 Then visit: https://localhost:8000/cloud
