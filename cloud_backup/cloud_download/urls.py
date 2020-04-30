@@ -27,5 +27,8 @@ urlpatterns = [
     path('dropbox-auth-start/', views.dropbox.dropbox_authentication_start), #Paths added to allow auth function to run
     path('dropbox-auth-finish/', views.dropbox.dropbox_authentication_finish), #Paths added to allow auth finish to complete
     ##############################################
+    path('google-auth-start/', views.google.GDriveDownloaded_authentication_start),
+    path('google-auth-finish/', views.google.GDriveDownloaded_authentication_finish),
+    ##############################################
     path('files/', views.Files.as_view(), name='files'),
 ]
