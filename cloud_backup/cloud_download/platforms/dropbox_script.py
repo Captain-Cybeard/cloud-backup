@@ -74,6 +74,7 @@ class DropBox(object):
         self.dropbox_entries_to_download_list = []
         self.dropbox_download_path = "/mnt/c/Users/tsesu/Downloads/"
         self.dropbox_format_json = {'path': '', 'dirs':[], 'files':[]}
+        self.dropbox_flat_json = {'files':[]}
         
     def dropbox_auth_flow(self, request):
         redirect_uri = "http://localhost:8000/cloud/dropbox-auth-finish"
@@ -101,6 +102,7 @@ class DropBox(object):
         self.dbx = dropbox.dropbox.Dropbox(self.dropbox_authentication_oauth_result.access_token)
         self.dropbox_get_files_list() #Uses API to get the files
         self.dropbox_format_entries_list() #Organizes files into Json
+        self.dropbox_dict_flatten()
         return redirect('/cloud/files') #After completion, goes to 'files' to view files.
 
     def dropbox_get_files_list(self):
@@ -149,7 +151,28 @@ class DropBox(object):
                 self.dropbox_entries_to_download_list.append(self.dropbox_get_files_list_result[int(numbers)])
         for e in self.dropbox_entries_to_download_list:
             print(e.name)
-'''
-    def dropbox_download_selected_entries(self, list_of_selected_downloads=null, path):
-        #this function will download the list of specified files to the path given by the user
-'''
+
+    def dropbox_dict_flatten(self):
+        for files in self.dropbox_format_json['files']:
+            self.dropbox_flat_json['files'].append(files)
+        for dir in self.dropbox_format_json['dirs']:
+            self.dropbox_dict_flatten_recur(dir)
+
+    def dropbox_dict_flatten_recur(self, dir):
+        for files in dir['files']:
+            self.dropbox_flat_json['files'].append(files)
+        for dirs in dir['dirs']:
+            self.dropbox_dict_flatten_recur(dirs)
+
+    def dropbox_download_selected_entries(self):
+        for files in self.dropbox_entries_to_download_list:
+            if '.' not in files:
+                try: 
+                    self.dbx.files_download_to_file('C:/Downloads', files['path'])
+                except dropbox.files.DownloadError as e:
+                    raise e
+            else:
+                try: 
+                    self.dbx.files_download_zip_to_file('C:/Downloads', files['path'])
+                except dropbox.files.DownloadZipError as e:
+                    raise e
