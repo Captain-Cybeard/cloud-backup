@@ -31,12 +31,6 @@ dropbox = platforms.dropbox_script.DropBox()
 
 class Index(View):
     index_template = 'cloud_download/index.html'
-<<<<<<< HEAD
-=======
-    
-    # not sure if this is the best way to do this?
-    # Will have to match if/else block in the post() method
->>>>>>> noahBranch
     platforms = ['google', 'dropbox', 'aws']
 
     def get(self, request):
