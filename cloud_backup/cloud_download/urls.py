@@ -1,18 +1,18 @@
 #!/usr/bin/env python3
 
 """ URL directs for cloud backup application
-Application:     Cloud Backup
-File:                 /cloud_backup/cloud_download/urls.py
+Application:    Cloud Backup
+File:           /cloud_backup/cloud_download/urls.py
 Description:    url paths
 Language:       Python 3.8 Django 2.2
-Dev Env:         Linux x64
+Dev Env:        Linux x64
 
-Authors:          Ryan Breitenfeldt
-                        Noah Farris
-                        Trevor Surface
-                        Kyle Thomas
-Class:              CptS 421/423 Fall '19 Spring '20
-University:    Washington State University Tri-CIties
+Authors:        Ryan Breitenfeldt
+                Noah Farris
+                Trevor Surface
+                Kyle Thomas
+Class:          CptS 421/423 Fall '19 Spring '20
+University:     Washington State University Tri-CIties
 """
 
 from django.urls import path

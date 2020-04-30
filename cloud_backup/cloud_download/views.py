@@ -12,11 +12,12 @@ Authors:          Ryan Breitenfeldt
                         Trevor Surface
                         Kyle Thomas
 Class:              CptS 421/423 Fall '19 Spring '20
-University:    Washington State University Tri-CIties
+University:    Washington State University Tri-Cities
 """
 
 from django.shortcuts import render, redirect
 from django.views import View
+import json
 from . import platforms
 
 __authors__ = ['Ryan Breitenfeldt', 'Noah Farris', 'Trevor Surface', 'Kyle Thomas']
@@ -56,13 +57,20 @@ class Index(View):
 
 class Files(View):
     template = 'cloud_download/files.html'
+    success_template = 'cloud_download/success.html'
     #global cloud
     def get(self, request):
         ######################################
         if cloud == 'dropbox': #Checks value set by Index class 
             context = dropbox.dropbox_format_json #Uses dropbox class to see data
         ######################################
+        print(context)
         return render(request, self.template, context)
+
+    def post(self, request):
+        files_to_download = request.POST['box']  # The user selected items
+        print(files_to_download)
+        return render(request, self.success_template, files_to_download)
 
 def index_redirect(request):
     return redirect('index/cloud')
