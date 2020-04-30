@@ -57,6 +57,18 @@ class Index(View):
 
         return redirect('files/')
 
+def flatten_list(x, flat_list):
+    for file in x['files']:
+        flat_list.append(file['path'])
+    for dir in x['dirs']:
+        flatten_list(x, flat_list)
+        
+#a = {'path': '', 'dirs': [{'path': '/grabfiles', 'dirs': [], 'files': [{'path': '/grabfiles/.git', 'name': '.git'}, {'
+#   ...: path': '/grabfiles/readme.md', 'name': 'readme.md'}, {'path': '/grabfiles/grabfiles.go', 'name': 'grabfiles.go'}]}], '
+#   ...: files': [{'path': '/get started with dropbox paper.url', 'name': 'get started with dropbox paper.url'}, {'path': '/get
+#   ...:  started with dropbox.pdf', 'name': 'get started with dropbox.pdf'}]}
+
+
 class Files(View):
     template = 'cloud_download/files.html'
     success_template = 'cloud_download/success.html'
@@ -64,17 +76,20 @@ class Files(View):
     def get(self, request):
         ######################################
         if cloud == 'dropbox': #Checks value set by Index class 
-            context = dropbox.dropbox_format_json #Uses dropbox class to see data
+            files_list = dropbox.dropbox_format_json #Uses dropbox class to see data
         ######################################
         elif cloud == 'google':
             context = google.GDriveDownloader_json
 
+        print(files_list)
+        context = []
+        flatten_list(files_list, context)
         print(context)
         return render(request, self.template, context)
 
     def post(self, request):
         files_to_download = request.POST['box']  # The user selected items
-        print(files_to_download)
+        print(files_to_download)  # DEBUGGING
         return render(request, self.success_template, files_to_download)
 
 def index_redirect(request):
