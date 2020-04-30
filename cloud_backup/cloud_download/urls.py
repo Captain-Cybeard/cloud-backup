@@ -28,4 +28,8 @@ urlpatterns = [
     path('dropbox-auth-finish/', views.dropbox.dropbox_authentication_finish), #Paths added to allow auth finish to complete
     ##############################################
     path('files/', views.Files.as_view(), name='files'),
+    path('aws_login/', views.Aws_Login.as_view(), name='aws_login'),
+    path('aws_buckets/', views.Aws_Buckets.as_view(), name='aws_buckets'),
+
+
 ]
