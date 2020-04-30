@@ -17,7 +17,6 @@ University:    Washington State University Tri-Cities
 
 from django.shortcuts import render, redirect
 from django.views import View
-import json
 from . import platforms
 from .forms import AWS_AuthForm
 from django import forms
