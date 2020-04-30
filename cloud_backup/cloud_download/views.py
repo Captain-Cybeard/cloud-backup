@@ -26,6 +26,7 @@ __authors__ = ['Ryan Breitenfeldt', 'Noah Farris', 'Trevor Surface', 'Kyle Thoma
 global cloud, dropbox #Need to add the other platforms as needed
 cloud = ""
 dropbox = platforms.dropbox_script.DropBox()
+google = platforms.gDriveDownloader.GDriveDownloader()
 ##############################
 
 class Index(View):
@@ -41,7 +42,8 @@ class Index(View):
         global cloud
         if platform == 'google':
             print(platform)  # DEBUGGING
-            cloud = platforms.gDriveDownloader.GDriveDownloader()
+            cloud = 'google'
+            return redirect('google-auth-start/')
         ############################
         elif platform == 'dropbox': #The following are the recomended changes
             cloud = 'dropbox' #For the Files class
@@ -64,6 +66,9 @@ class Files(View):
         if cloud == 'dropbox': #Checks value set by Index class 
             context = dropbox.dropbox_format_json #Uses dropbox class to see data
         ######################################
+        elif cloud == 'google':
+            context = google.GDriveDownloader_json
+
         print(context)
         return render(request, self.template, context)
 
