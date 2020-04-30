@@ -19,7 +19,9 @@ from django.shortcuts import render, redirect
 from django.views import View
 import json
 from . import platforms
-
+from .forms import AWS_AuthForm
+from django import forms
+from .models import aws_data
 __authors__ = ['Ryan Breitenfeldt', 'Noah Farris', 'Trevor Surface', 'Kyle Thomas']
 
 ##############################
@@ -50,12 +52,14 @@ class Index(View):
             return redirect('dropbox-auth-start/') #Calls the dropbox authentication
         ############################
         elif platform == 'aws':
-            print(platform)  # DEBUGGING
+            print(platform)
+            #cloud = platforms.aws.aws(aws_access_key_id, aws_access_key)
+            return redirect('aws_login/')
         else:
             print("Unsupported platform")
             return redirect('index/')
 
-        return redirect('files/')
+        return redirect('aws_login/')
 
 ####def flatten_list(x, flat_list):
 ####    for file in x['files']:
@@ -89,5 +93,47 @@ class Files(View):
         print(files_to_download)  # DEBUGGING
         return render(request, self.success_template, files_to_download)
 
+class Aws_Buckets(View):
+    template = 'cloud_download/aws_buckets.html'
+
+    def get(self, request):
+        obj = aws_data.objects.first()
+        key_id_object = aws_data._meta.get_field("aws_key_id")
+        key_object = aws_data._meta.get_field("aws_key")
+
+        aws_key_id = key_id_object.value_from_object(obj)
+        aws_key= key_object.value_from_object(obj)
+
+        aws = platforms.aws.aws(aws_key_id, aws_key)
+        buckets = aws.get_buckets()
+        context = {'files': buckets}
+        return render(request, self.template, context)
+
+class Aws_Login(View):
+    template_name = 'cloud_download/aws_login.html'
+
+    def get(self, request):
+        form = AWS_AuthForm(request.POST)
+        return render(request, self.template_name, {'form': form})
+    def post(self, request):
+        aws_data.objects.all().delete()
+        form = AWS_AuthForm(request.POST)
+        if form.is_valid():
+            form.save()
+            aws_key_id = form.cleaned_data.get('aws_key_id')
+            aws_key = form.cleaned_data.get('aws_key')
+            try:
+                platforms.aws.aws(aws_key_id, aws_key).get_image_list()
+                return redirect("/cloud/aws_buckets/")   
+            except:
+                forms.ValidationError("Incorrect username or password")    
+                 
+
+        else:
+            form = AWS_AuthForm()
+
+        return render(request, self.template_name, {'form': form})
+
 def index_redirect(request):
-    return redirect('index/cloud')
+    return redirect('index/')
+
