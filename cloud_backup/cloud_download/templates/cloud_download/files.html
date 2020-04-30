@@ -26,7 +26,7 @@ University:    Washington State University Tri-Cities
             {% csrf_token %}
             <input type="checkbox" onclick="toggle(this)" />Select All <br/>
             {% for file in files %}
-            <input type="checkbox" value="{{ file['name'] }}" name="box">{{ file['name'] }} <br />
+            <input type="checkbox" value="{{ file.name }}" name="box">{{ file.name }} <br />
             {% endfor %}
             <input type="submit" value="Download">
             <p />
