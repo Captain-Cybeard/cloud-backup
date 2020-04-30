@@ -12,7 +12,7 @@ Authors:          Ryan Breitenfeldt
                         Trevor Surface
                         Kyle Thomas
 Class:              CptS 421/423 Fall '19 Spring '20
-University:    Washington State University Tri-Cities
+University:    Washington State University Tri-CIties
 -->
 <html>
     <head>
@@ -21,14 +21,15 @@ University:    Washington State University Tri-Cities
     </head>
     <body style="background-color:#f9f1f1">
         <h1>Cloud Backup Application</h1>
+
         <p>
-        <form id="aclass" action="" method="post">
+        <form id="aclass" method="POST">
             {% csrf_token %}
             <input type="checkbox" onclick="toggle(this)" />Select All <br/>
             {% for file in files %}
-            <input type="checkbox" value="{{ file.name }}" name="box">{{ file.name }} <br />
+            <input type="checkbox" value="{{ file }}" name="box">{{ file }} <br />
             {% endfor %}
-            <input type="submit" value="Download">
+            <input type="submit" value="Submit">
             <p />
             <a class="back" id="back" href="">Start Over</a>
         </form>
@@ -43,5 +44,6 @@ University:    Washington State University Tri-Cities
           }
         }
     </script>
+
 </html>
 

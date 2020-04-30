@@ -54,3 +54,6 @@ class aws():
             self._s3_resource.download_file(bucket_name, image_name, image_name, Callback=self.__progress_indicator(vm_file))
 
 
+if __name__ == "__main__":
+    aws = aws('AKIAIFRUMP75Q3QQITOQ', 'wpdTTI1E+CYbfb3RfXcIAtJ8j8QEeUIyys9xyci2')
+    print(aws.get_buckets())

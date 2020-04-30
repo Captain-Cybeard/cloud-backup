@@ -20,14 +20,17 @@ import io
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaIoBaseDownload
 from google_auth_oauthlib.flow import InstalledAppFlow
+from google_auth_oauthlib.flow import Flow
 from google.auth.transport.requests import Request
 import flask
 import google.oauth2.credentials
+from google.oauth2.credentials import Credentials
 import google_auth_oauthlib.flow
 from apiclient import discovery
 import httplib2
 from oauth2client import client
 import requests
+from django.shortcuts import render, redirect
 
 __author__ = 'Ryan Breitenfeldt'
 
@@ -72,6 +75,7 @@ class GDriveDownloader():
         # Call Google API
         http_auth = credentials.authorize(httplib2.Http())
         self.GDriveDownloader_service = discovery.build('drive', 'v3', http=http_auth)
+        
         
         #auth_flask = flask()
         #flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file('client_secret_204730000731-c0gs1os80ucalj6mto9c1etmaee70is7.apps.googleusercontent.com.json', self.GDriveDownloader_SCOPES)
@@ -138,5 +142,25 @@ class GDriveDownloader():
     def GDriveDownloader_add_file_to_download(self,fileId):
         self.GDriveDownloader_files_to_download.append(fileId)
 
+    def GDriveDownloaded_authentication_flow(self):    
+        redirect_uri = "http://localhost:8000/cloud/google-auth-finish/"
+        return Flow.from_client_secrets_file(
+            'client_secret_204730000731-c0gs1os80ucalj6mto9c1etmaee70is7.apps.googleusercontent.com.json',
+            scopes=self.GDriveDownloader_SCOPES,
+            redirect_uri=redirect_uri)
 
+    def GDriveDownloaded_authentication_start(self, request):    
+        auth_uri = self.GDriveDownloaded_authentication_flow().authorization_url()[0]
+        return redirect(auth_uri[:-20])
+
+    def GDriveDownloaded_authentication_finish(self, request):    
+        try:
+            self.GDriveDownloader_creds = self.GDriveDownloaded_authentication_flow().fetch_token(code=request.GET['code'], state= request.GET['state'])
+            #print(self.GDriveDownloader_creds)
+            self.GDriveDownloader_creds = Credentials(self.GDriveDownloader_creds['access_token'])
+            self.GDriveDownloader_build_Service()
+            self.GDriveDownloader_get_Files()
+        except Exception as e:
+            raise e
+        return redirect('/cloud/files')
 

@@ -4,5 +4,12 @@ database.sqlite3
 db.sqlite3
 __pycache__
 Api_keys.py
+<<<<<<< HEAD
 Api_keys.pycc
 client_secret_204730000731-c0gs1os80ucalj6mto9c1etmaee70is7.apps.googleusercontent.com.json
+=======
+Api_keys.pyc
+
+
+cloud_backup/client_secret_204730000731-c0gs1os80ucalj6mto9c1etmaee70is7.apps.googleusercontent.com.json
+>>>>>>> master
