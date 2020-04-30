@@ -125,7 +125,7 @@ class GDriveDownloader():
         page_token = None
         while True:
             #self.GDriveDownloader_file_List = self.GDriveDownloader_service.files().list(spaces='drive', fields='nextPageToken, items(id, title)', pageToken=page_token).execute()
-            self.GDriveDownloader_file_List = self.GDriveDownloader_service.files().list(q="mimeType != 'application/vnd.google-apps.document' and mimeType != 'application/vnd.google-apps.spreadsheet' and mimeType != 'application/vnd.google-apps.presentation'",spaces='drive', fields='*' , pageToken=page_token).execute()
+            self.GDriveDownloader_file_List = self.GDriveDownloader_service.files().list(q="mimeType != 'application/vnd.google-apps.document' and mimeType != 'application/vnd.google-apps.spreadsheet' and mimeType != 'application/vnd.google-apps.presentation'and mimeType != 'application/vnd.google-apps.folder'",spaces='drive', fields='*' , pageToken=page_token).execute()
             for file in self.GDriveDownloader_file_List["files"]:
                 # Process change
                 #print 'Found file: %s (%s)' % (file.get('title'), file.get('id'))
