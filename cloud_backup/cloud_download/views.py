@@ -92,6 +92,7 @@ class Files(View):
         print(files_to_download)  # DEBUGGING
         return render(request, self.success_template, files_to_download)
 
+
 class Aws_Buckets(View):
     template = 'cloud_download/aws_buckets.html'
 
