@@ -65,6 +65,7 @@ class GDriveDownloader():
     def GDriveDownloader_build_Service(self):
         self.GDriveDownloader_service = build('drive', 'v3', credentials=self.GDriveDownloader_creds)
 
+# loops over GDriveDownloader_files_to_download and downloads each file to the working directory 
     def GDriveDownloader__download_File(self):
         for file_id in self.GDriveDownloader_files_to_download:
             request = self.GDriveDownloader_service.files().get_media(fileId=file_id["id"])
@@ -77,6 +78,7 @@ class GDriveDownloader():
             f = open(file_id["name"], 'wb')
             f.write(fh.getvalue())
 
+# makes a query to google drive to get the files. it filters out folders and google propriatary file types.
     def GDriveDownloader_get_Files(self):
         page_token = None 
         while True:
