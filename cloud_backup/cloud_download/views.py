@@ -22,6 +22,7 @@ from .forms import AWS_AuthForm
 from django import forms
 import json
 from .models import aws_data
+import ast
 __authors__ = ['Ryan Breitenfeldt', 'Noah Farris', 'Trevor Surface', 'Kyle Thomas']
 
 ##############################
@@ -99,7 +100,7 @@ class Files(View):
             #json_acceptable_string = str(json_acceptable_string)
             #files_to_download.append(json.loads(r"json_acceptable_string"))
             #file = r"+file
-            files_to_download.append(json_acceptable_string)
+            files_to_download.append(ast.literal_eval(file))
             #if cloud == 'google':
             #    google.GDriveDownloader_add_file_to_download(file)
             #print(files_to_download)
