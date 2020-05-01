@@ -8,6 +8,18 @@ h1 {
     text-align: center;
     font: 38px 'Open Sans', Arial, sans-serif;
 }
+
+h2 {
+    color: #ddd;
+    text-align: center;
+    font: 15px 'Open Sans', Arial, sans-serif;
+}
+
+h3 {
+  color: #ddd;
+  text-align: center;
+  font: 18px 'Open Sans', Arial, sans-serif;
+}
 body {
   height: 100%;
   margin: 0;
@@ -19,6 +31,15 @@ body {
     left: 30%;
 }
 
+.outer2 {
+    position: absolute;
+    left: 44%;
+}
+
+.outer3 {
+  position: absolute;
+  left: 27%;
+}
 .button {
     border: none;
     color: white;
@@ -38,6 +59,19 @@ body {
     color: #ddd; 
     border: 2px solid #008CBA;
   }
+  .button_index {
+    border: none;
+    color: white;
+    padding: 15px 50px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font: 30px 'Open Sans', Arial, sans-serif;
+    margin: 8px 4px;
+    cursor: pointer;
+    vertical-align: top;
+    border-radius: 3px
+  }
   .button2 {
     background-color: #484848; 
     color: #ddd; 
@@ -50,6 +84,26 @@ body {
     background: rgb(25, 63, 70);
     }
 
+    .btn{
+      background:#484848;
+      width:125px;
+      padding-top:5px;
+      padding-bottom:5px;
+      color:#ddd;
+      border-radius:3px;
+      border: #008CBA 2px solid;
+      margin-top:20px;
+      margin-bottom:20px;
+      float:left;
+      margin-left:180px;
+      font-weight:800;
+      font-size:0.8em;
+    }
+    
+    .btn:hover{
+      background: rgb(25, 63, 70);
+    }
+    
 .header {
     position: relative;
     top: 0;
@@ -109,4 +163,40 @@ input[type="checkbox"]:checked + label:before {
   border-left-color: transparent;
   -webkit-transform: rotate(45deg);
   transform: rotate(45deg);
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+ 
+li {
+  font: 200 20px/1.5 Helvetica, Verdana, sans-serif;
+  border-bottom: 1px solid #008CBA;
+  text-align: center;
+}
+ 
+li:last-child {
+  border: none;
+}
+.table {
+	display: table;   /* Allow the centering to work */
+	margin: 0 auto;
+}
+li a {
+  text-decoration: none;
+  color: #ddd;
+  display: block;
+  width: 600px;
+  text-align: center;
+  -webkit-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -moz-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -o-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -ms-transition: font-size 0.3s ease, background-color 0.3s ease;
+  transition: font-size 0.3s ease, background-color 0.3s ease;
+}
+ 
+li a:hover {
+  font-size: 30px;
 }

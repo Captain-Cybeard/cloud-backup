@@ -17,13 +17,15 @@ University:    Washington State University Tri-CIties
 <html>
     <head>
         {% load static %}
-        <link rel="stylesheet" type="text/css" href="{% static 'cloud_download/aws_login_style.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'cloud_download/aws.css' %}">
         <meta charset="UTF-8">
     </head>
 
     <form method="post">
         <div class="box">
-        <h1>Dashboard</h1>
+        <h1>Amazon Web Services</h1>
+        <h2>Login</h1>
+
         {% csrf_token %}
         {% for field in form.hidden_fields %}
             {{ field }}

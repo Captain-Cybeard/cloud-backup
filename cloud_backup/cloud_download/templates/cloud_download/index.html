@@ -23,21 +23,26 @@ University:    Washington State University Tri-Cities
 
     <body>
         <h1>Cloud Backup Application</h1>
-        <div class = "outer">
+        <h2>Please select a cloud application and click 'Submit'.</h2>
+        <div class = "outer2">
         <div class = "inner">
-        <div class = "buttonHold">
-        <form action="" method="post">
-          {% csrf_token %}
-          <select class = "button button1" id="platform" name="platform">
-            {% for platform in platforms %}
-            <option value="{{platform}}">{{platform}}</option>
-            {% empty %}
-            <option value="empty">error, no platforms found</option>
-            {% endfor %}
-          </select>
-          <input class = "button button1" type="submit" value="Submit"> 
-        </form>
-      </div>
+          <div class = "button-group">
+            <form action="" method="post">
+              {% csrf_token %}
+              <div class>
+              <select class = "button_index button1" id="platform" name="platform">
+                {% for platform in platforms %}
+                <option value="{{platform}}">{{platform}}</option>
+                {% empty %}
+                <option value="empty">error, no platforms found</option>
+                {% endfor %}
+              </select>
+             </div>
+             <div>
+              <input class = "button button1" type="submit" value="Submit"> 
+            </div>
+            </form>
+          </div>
       </div>
     </div>
     </body>

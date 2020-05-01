@@ -133,7 +133,7 @@ class Aws_Login(View):
                 platforms.aws.aws(aws_key_id, aws_key).get_image_list()
                 return redirect("/cloud/files/")   
             except:
-                messages.error(request, 'Password is incorrect')                 
+                messages.error(request, 'Amazon Web Services Key or Key ID is incorrect!')                 
 
         else:
             form = AWS_AuthForm()
