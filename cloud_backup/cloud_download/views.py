@@ -85,27 +85,6 @@ class Files(View):
         ######################################
         elif cloud == 'google':
             context = google.GDriveDownloader_json
-        return render(request, self.template, context)
-
-    def post(self, request):
-        context = {}
-        user_selection = request.POST.getlist('box')
-        files_to_download = []
-        print()
-        print(user_selection)
-        print()
-        for file in user_selection:
-            #json_acceptable_string = file.replace("'", '"')
-            #print(json_acceptable_string)
-            #json_acceptable_string = str(json_acceptable_string)
-            #files_to_download.append(json.loads(r"json_acceptable_string"))
-            files_to_download.append(ast.literal_eval(file))
-        context['files'] = files_to_download
-        if cloud == 'google':
-            google.GDriveDownloader_files_to_download = files_to_download
-            google.GDriveDownloader__download_File()
-        return render(request, self.success_template, context)
-
         elif cloud == 'aws':
             obj = aws_data.objects.first()
             key_id_object = aws_data._meta.get_field("aws_key_id")
@@ -113,9 +92,9 @@ class Files(View):
             aws_key_id = key_id_object.value_from_object(obj)
             aws_key= key_object.value_from_object(obj)
             aws = platforms.aws.aws(aws_key_id, aws_key)
+            return render(request, self.template, {'files': aws.list_images_in_bucket()})
 
-        return render(request, self.template, {'files': aws.list_images_in_bucket()})
-
+        return render(request, self.template, context)
     def post(self, request):
         if cloud == 'aws':
             obj = aws_data.objects.first()
@@ -124,10 +103,8 @@ class Files(View):
             aws_key_id = key_id_object.value_from_object(obj)
             aws_key= key_object.value_from_object(obj)
             aws = platforms.aws.aws(aws_key_id, aws_key)
-
             context = {}
             user_selection = request.POST.getlist('box')
-
             files_to_download = []
             for file in user_selection:
                 file_name = ast.literal_eval(file)
@@ -135,6 +112,19 @@ class Files(View):
                 json_acceptable_string = file.replace("'", "\"")
                 files_to_download.append(json.loads(json_acceptable_string))
             context['files'] = files_to_download
+            return render(request, self.success_template, context)
+
+        elif cloud == 'google':
+            context = {}
+            user_selection = request.POST.getlist('box')
+            files_to_download = []
+
+            for file in user_selection:
+                files_to_download.append(ast.literal_eval(file))
+            context['files'] = files_to_download
+            if cloud == 'google':
+                google.GDriveDownloader_files_to_download = files_to_download
+                google.GDriveDownloader__download_File()
             return render(request, self.success_template, context)
 
 class Aws_Login(View):
