@@ -95,15 +95,11 @@ class Files(View):
         print(user_selection)
         print()
         for file in user_selection:
-            json_acceptable_string = file.replace("'", '"')
+            #json_acceptable_string = file.replace("'", '"')
             #print(json_acceptable_string)
             #json_acceptable_string = str(json_acceptable_string)
             #files_to_download.append(json.loads(r"json_acceptable_string"))
-            #file = r"+file
             files_to_download.append(ast.literal_eval(file))
-            #if cloud == 'google':
-            #    google.GDriveDownloader_add_file_to_download(file)
-            #print(files_to_download)
         context['files'] = files_to_download
         if cloud == 'google':
             google.GDriveDownloader_files_to_download = files_to_download
