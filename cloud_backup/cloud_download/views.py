@@ -20,6 +20,7 @@ from django.views import View
 from . import platforms
 from .forms import AWS_AuthForm
 from django import forms
+import json
 from .models import aws_data
 __authors__ = ['Ryan Breitenfeldt', 'Noah Farris', 'Trevor Surface', 'Kyle Thomas']
 
@@ -83,14 +84,17 @@ class Files(View):
         ######################################
         elif cloud == 'google':
             context = google.GDriveDownloader_json
-
-        print(context)
         return render(request, self.template, context)
 
     def post(self, request):
-        files_to_download = request.POST['box']  # The user selected items
-        print(files_to_download)  # DEBUGGING
-        return render(request, self.success_template, files_to_download)
+        context = {}
+        user_selection = request.POST.getlist('box')
+        files_to_download = []
+        for file in user_selection:
+            json_acceptable_string = file.replace("'", "\"")
+            files_to_download.append(json.loads(json_acceptable_string))
+        context['files'] = files_to_download
+        return render(request, self.success_template, context)
 
 
 class Aws_Buckets(View):
