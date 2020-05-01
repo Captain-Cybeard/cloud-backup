@@ -22,16 +22,17 @@ University:    Washington State University Tri-Cities
     <body style="background-color:#f9f1f1">
         <h1>Cloud Backup Application</h1>
 
-        <h3><marquee>Profit!</marquee></h3>
         <p>
         <h4>Files downloaded:</h4>
         <ul>
         {% for file in files %}
         <li />{{ file.name }}
+        {% empty %}
+            no files selected for downloading
         {% endfor %}
         </ul>
         <p />
-        <a class="back" id="back" href="">Start Over</a>
+        <a class="back" id="back" href="/cloud">Start Over</a>
 
     </body>
 

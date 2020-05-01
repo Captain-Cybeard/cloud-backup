@@ -29,6 +29,8 @@ University:    Washington State University Tri-Cities
           <select id="platform" name="platform">
             {% for platform in platforms %}
             <option value="{{platform}}">{{platform}}</option>
+            {% empty %}
+            <option value="empty">error, no platforms found</option>
             {% endfor %}
           </select>
             <p />

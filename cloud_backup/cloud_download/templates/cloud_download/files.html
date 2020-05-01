@@ -27,10 +27,12 @@ University:    Washington State University Tri-Cities
             <input type="checkbox" onclick="toggle(this)" />Select All <br/>
             {% for file in files %}
             <input type="checkbox" value="{{ file }}" name="box">{{ file.name }} <br />
+            {% empty %}
+                no files found
             {% endfor %}
             <input type="submit" value="Download">
             <p />
-            <a class="back" id="back" href="">Start Over</a>
+            <a class="back" id="back" href="/cloud">Start Over</a>
         </form>
 
     </body>
