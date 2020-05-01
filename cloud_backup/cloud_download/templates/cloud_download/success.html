@@ -23,28 +23,17 @@ University:    Washington State University Tri-Cities
         <h1>Cloud Backup Application</h1>
 
         <h3><marquee>Profit!</marquee></h3>
-<!--        <p>
-        <form id="aclass" action="" method="post">
-            {% csrf_token %}
-            <input type="checkbox" onclick="toggle(this)" />Select All <br/>
-            {% for file in files %}
-            <input type="checkbox" value="{{ file }}" name="box">{{ file }} <br />
-            {% endfor %}
-            <input type="submit" value="Download">
-            <p />
-            <a class="back" id="back" href="">Start Over</a>
-        </form>
+        <p>
+        <h4>Files downloaded:</h4>
+        <ul>
+        {% for file in files %}
+        <li />{{ file.name }}
+        {% endfor %}
+        </ul>
+        <p />
+        <a class="back" id="back" href="">Start Over</a>
 
     </body>
 
-    <script>
-        function toggle(source) {
-          checkboxes = document.getElementsByName('box');
-          for(var i=0, n=checkboxes.length;i<n;i++) {
-            checkboxes[i].checked = source.checked;
-          }
-        }
-    </script>
--->
 </html>
 
