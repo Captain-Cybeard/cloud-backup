@@ -87,14 +87,6 @@ class Files(View):
         return render(request, self.template, context)
 
     def post(self, request):
-<<<<<<< HEAD
-        # files_to_download = {'files':[]}
-        # files_to_download['files'] = request.POST.getlist('box')  # The user selected items
-        # print(files_to_download)  # DEBUGGING
-        # dropbox.dropbox_entries_to_download_list = files_to_download['files']
-        # #dropbox.dropbox_download_selected_entries()
-        # return render(request, self.success_template, files_to_download)
-=======
         context = {}
         user_selection = request.POST.getlist('box')
         files_to_download = []
@@ -102,9 +94,11 @@ class Files(View):
             json_acceptable_string = file.replace("'", "\"")
             files_to_download.append(json.loads(json_acceptable_string))
         context['files'] = files_to_download
+        dropbox.dropbox_entries_to_download_list = context['files']
+        dropbox.dropbox_download_selected_entries()
+        print(context)
         return render(request, self.success_template, context)
 
->>>>>>> 77240a690597ef54cac193f66dcdfca05c45d120
 
 class Aws_Buckets(View):
     template = 'cloud_download/aws_buckets.html'
