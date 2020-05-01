@@ -19,21 +19,21 @@ University:    Washington State University Tri-Cities
         {% load static %}
         <link rel="stylesheet" type="text/css" href="{% static 'cloud_download/style.css' %}">
     </head>
-    <body style="background-color:#f9f1f1">
+    <body>
         <h1>Cloud Backup Application</h1>
-
-        <p>
-        <h4>Files downloaded:</h4>
-        <ul>
-        {% for file in files %}
-        <li />{{ file.name }}
-        {% empty %}
-            no files selected for downloading
-        {% endfor %}
-        </ul>
-        <p />
-        <a class="back" id="back" href="/cloud">Start Over</a>
-
+        <h3>Files:</h3>
+        <div class="outer3">
+            <div class = "table">
+            <ul>
+                {% for file in files %}
+                <li><a>{{ file.name }}</a></li>
+                {% empty %}
+                    no files selected for downloading
+                {% endfor %}
+            </ul>
+            </div>
+            <a class="button btn" id="back" href="/cloud">Start Over</a>
+        </div>
     </body>
 
 </html>
