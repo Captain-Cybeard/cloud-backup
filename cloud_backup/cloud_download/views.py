@@ -79,17 +79,18 @@ class Files(View):
     def get(self, request):
         ######################################
         if cloud == 'dropbox': #Checks value set by Index class 
-            context = dropbox.dropbox_format_json #Uses dropbox class to see data
+            context = dropbox.dropbox_flat_json #Uses dropbox class to see data
         ######################################
         elif cloud == 'google':
             context = google.GDriveDownloader_json
-
-        print(context)
         return render(request, self.template, context)
 
     def post(self, request):
-        files_to_download = request.POST['box']  # The user selected items
+        files_to_download = {'files':[]}
+        files_to_download['files'] = request.POST.getlist('box')  # The user selected items
         print(files_to_download)  # DEBUGGING
+        dropbox.dropbox_entries_to_download_list = files_to_download['files']
+        #dropbox.dropbox_download_selected_entries()
         return render(request, self.success_template, files_to_download)
 
 class Aws_Buckets(View):
