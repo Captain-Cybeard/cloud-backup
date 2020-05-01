@@ -11,7 +11,7 @@ Authors:          Trevor Surface
 Class:              CptS 421/423 Fall '19 Spring '20
 University:    Washington State University Tri-CIties
 """
-
+import os
 import dropbox
 import json
 from django.shortcuts import redirect
@@ -72,7 +72,7 @@ class DropBox(object):
         self.dropbox_get_files_return = ""
         self.dropbox_get_files_list_result = []
         self.dropbox_entries_to_download_list = []
-        self.dropbox_download_path = "/mnt/c/Users/tsesu/Downloads/"
+        self.dropbox_download_path = os.environ['HOME'] + "/Downloads"
         self.dropbox_format_json = {'path': '', 'dirs':[], 'files':[]}
         self.dropbox_flat_json = {'files':[]}
         
@@ -100,10 +100,10 @@ class DropBox(object):
             logger.log("Auth error: %s" % (e,))
             raise e
         self.dbx = dropbox.dropbox.Dropbox(self.dropbox_authentication_oauth_result.access_token)
-        self.dropbox_get_files_list() #Uses API to get the files
-        self.dropbox_format_entries_list() #Organizes files into Json
-        self.dropbox_dict_flatten()
-        return redirect('/cloud/files') #After completion, goes to 'files' to view files.
+        self.dropbox_get_files_list()
+        self.dropbox_format_entries_list()
+        self.dropbox_dict_flatten_recur(self.dropbox_format_json)
+        return redirect('/cloud/files') 
 
     def dropbox_get_files_list(self):
         self.dropbox_get_files_list_return = self.dbx.files_list_folder("", recursive=True)
@@ -143,21 +143,6 @@ class DropBox(object):
                     if dict not in build_dict['dirs']:
                         build_dict['dirs'].append(dict)         
 
-    def dropbox_select_entries_to_download(self):
-        number_string = raw_input("\nPlease select files to download by number: ")
-        print("Selected Files:")
-        for numbers in number_string:
-            if(numbers != " "):
-                self.dropbox_entries_to_download_list.append(self.dropbox_get_files_list_result[int(numbers)])
-        for e in self.dropbox_entries_to_download_list:
-            print(e.name)
-
-    def dropbox_dict_flatten(self):
-        for files in self.dropbox_format_json['files']:
-            self.dropbox_flat_json['files'].append(files)
-        for dir in self.dropbox_format_json['dirs']:
-            self.dropbox_dict_flatten_recur(dir)
-
     def dropbox_dict_flatten_recur(self, dir):
         for files in dir['files']:
             self.dropbox_flat_json['files'].append(files)
@@ -166,13 +151,13 @@ class DropBox(object):
 
     def dropbox_download_selected_entries(self):
         for files in self.dropbox_entries_to_download_list:
-            if '.' not in files:
+            if '.' in files['path']:
                 try: 
-                    self.dbx.files_download_to_file('C:/Downloads', files['path'])
-                except dropbox.files.DownloadError as e:
+                    self.dbx.files_download_to_file(self.dropbox_download_path + '/' + files['name'], files['path'])
+                except dropbox.exceptions.ApiError as e:
                     raise e
             else:
                 try: 
-                    self.dbx.files_download_zip_to_file('C:/Downloads', files['path'])
-                except dropbox.files.DownloadZipError as e:
+                    self.dbx.files_download_zip_to_file(self.dropbox_download_path + '/' + files['name'], files['path'])
+                except dropbox.exceptions.ApiError as e:
                     raise e
