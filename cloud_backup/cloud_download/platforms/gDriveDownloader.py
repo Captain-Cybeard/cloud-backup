@@ -81,6 +81,7 @@ class GDriveDownloader():
 # makes a query to google drive to get the files. it filters out folders and google propriatary file types.
     def GDriveDownloader_get_Files(self):
         page_token = None 
+        self.GDriveDownloader_json['files'].clear()
         while True:
             self.GDriveDownloader_file_List = self.GDriveDownloader_service.files().list(q="mimeType != 'application/vnd.google-apps.document' and mimeType != 'application/vnd.google-apps.spreadsheet' and mimeType != 'application/vnd.google-apps.presentation' and mimeType != 'application/vnd.google-apps.folder'" ,spaces='drive', fields='*' , pageToken=page_token).execute()
             for file in self.GDriveDownloader_file_List["files"]:
