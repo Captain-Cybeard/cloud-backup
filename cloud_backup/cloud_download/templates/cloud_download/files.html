@@ -19,23 +19,26 @@ University:    Washington State University Tri-Cities
         {% load static %}
         <link rel="stylesheet" type="text/css" href="{% static 'cloud_download/style.css' %}">
     </head>
-    <body style="background-color:#f9f1f1">
-        <h1>Cloud Backup Application</h1>
-        <p>
-        <form id="aclass" action="" method="post">
-            {% csrf_token %}
-            <input type="checkbox" onclick="toggle(this)" />Select All <br/>
-            {% for file in files %}
-            <input type="checkbox" value="{{ file }}" name="box">{{ file.name }} <br />
-            {% empty %}
-                no files found
-            {% endfor %}
-            <input type="submit" value="Download">
-            <p />
-            <a class="back" id="back" href="/cloud">Start Over</a>
-        </form>
-
-    </body>
+        <div class = "outer">
+            <div class = "header"><h1>Cloud Download Application</h1></div>
+            <div class = "inner">
+            <form id="aclass" action="" method="post">
+                {% csrf_token %}
+                <div class="boxes">
+                <input type="checkbox" id = "sel_all" name = "box" onclick="toggle(this)">
+                <label for="sel_all"> Select All </label>
+                {% for file in files %}
+                <input type="checkbox" id = "{{ file }}" value="{{ file }}" name="box">
+                <label for="{{ file }}">{{ file.name }} </label>
+                {% empty %}
+                    no files found
+                {% endfor %}
+                </div>
+                <input class = "button button1" type="submit" value="Download">
+                <a class="button button2" id="back" href="/cloud">Start Over</a>
+            </form>
+            </div>
+        </div>
 
     <script>
         function toggle(source) {

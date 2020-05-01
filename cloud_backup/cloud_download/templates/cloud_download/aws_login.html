@@ -35,7 +35,13 @@ University:    Washington State University Tri-CIties
         <input type="submit" value="Submit" div class="btn">                  
         </div> <!-- End Box -->
           
-        </form>   
-
+    </form>   
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <script>alert("{{ message }}")</script>  
+        {% endfor %}
+    </ul>
+    {% endif %}
 </html>
 

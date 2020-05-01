@@ -1,186 +1,112 @@
-/*
-Cascading Style Sheet for cloud backup application
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
 
-Application:     Cloud Backup
-File:                 /cloud_backup/cloud_download/static/cloud_download/style.css
-Description:    HTML CSS
-Language:       Python 3.8 Django 2.2
-Dev Env:         Linux x64
-
-Authors:          Ryan Breitenfeldt
-                        Noah Farris
-                        Trevor Surface
-                        Kyle Thomas
-Class:              CptS 421/423 Fall '19 Spring '20
-University:    Washington State University Tri-CIties
- */
+/*Page styles*/
+html { height: 100%; }
 
 h1 {
+    color: #ddd;
     text-align: center;
+    font: 38px 'Open Sans', Arial, sans-serif;
+}
+body {
+  height: 100%;
+  margin: 0;
+  background: #363636;
+  align-items: center;
+}
+.outer {
+    position: absolute;
+    left: 30%;
 }
 
-form {
-    padding-top:75px;
-    margin:auto;
-    width:30%;
-    text-align:center;
+.button {
+    border: none;
+    color: white;
+    padding: 15px 45px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font: 16px 'Open Sans', Arial, sans-serif;
+    margin: 8px 4px;
+    cursor: pointer;
+    vertical-align: top;
+    border-radius: 3px
+  }
+  
+  .button1 {
+    background-color: #484848; 
+    color: #ddd; 
+    border: 2px solid #008CBA;
+  }
+  .button2 {
+    background-color: #484848; 
+    color: #ddd; 
+    border: 2px solid #008CBA;
+  }
+  .button1:hover{
+    background: rgb(25, 63, 70);
+    }
+  .button2:hover{
+    background: rgb(25, 63, 70);
+    }
+
+.header {
+    position: relative;
+    top: 0;
 }
 
+.inner {
+    position: relative;
+}
+.boxes {
+  margin: auto;
+  padding: 50px;
+  background: #484848;
+  border-radius: 7px;
+}
+.buttonHold {
+    text-align: center; 
+}
+/*Checkboxes styles*/
+input[type="checkbox"] { display: none; }
 
-input {
-    padding:10px;
-    margin:10px;
+input[type="checkbox"] + label {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 20px;
+  font: 14px/20px 'Open Sans', Arial, sans-serif;
+  color: #ddd;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 
+input[type="checkbox"] + label:last-child { margin-bottom: 0; }
 
-input[type=text] {
-    width:100%;
-    border-radius:2px;
-    margin:auto;
-    border:0px;
-    background:lightgrey;
+input[type="checkbox"] + label:before {
+  content: '';
+  display: block;
+  width: 20px;
+  height: 20px;
+  border: 1px solid #6cc0e5;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: .6;
+  -webkit-transition: all .12s, border-color .08s;
+  transition: all .12s, border-color .08s;
 }
 
-input[type=text]:hover {
-    width:100%;
-    border-radius:2px;
-    margin:auto;
-    border:0px;
-    background:lightgrey;
-}
-
-
-input[type=password] {
-    width:100%;
-    border-radius:2px;
-    margin:auto;
-    border:0px;
-    background:lightgrey;
-}
-
-input[type=password]:hover {
-    width:100%;
-    border-radius:2px;
-    margin:auto;
-    border:0px;
-    background:lightgrey;
-}
-
-input[type=submit] {
-    margin:auto;
-    color:white;
-    background-color:green;
-    border-radius:8px;
-    width:50%;
-}
-
-input[type=submit]:hover {
-    margin:auto;
-    color:black;
-    background-color:lightgreen;
-    border-radius:8px;
-    width:50%;
-}
-
-
-table {
-    text-align:center;
-    margin:auto;
-/*    width:30%; */
-    border-collapse:collapse;
-}
-
-th, td {
-    border:0px;
-    text-align:center;
-    font-size: 25px;
-}
-
-i {
-    font-size: 150px;
-}
-
-.classification {
-	min-width: 150px;
-}
-
-.back {
-    background-color:green;
-    border:0px;
-    color:white;
-    position:fixed
-    left:0;
-    bottom:0;
-    padding:10px;
-    margin:10px;
-    text-decoration:none;
-    border-radius:8px;
-    text-align:center;
-    align:center;
-}
-
-.back:hover {
-    background-color:lightgreen;
-    border:0px;
-    color:black;
-    position:fixed
-    left:0;
-    bottom:0;
-    padding:10px;
-    margin:10px;
-    text-decoration:none;
-    border-radius:8px;
-}
-
-div {
-    padding-top:75px;
-    margin:auto;
-    width:30%;
-    text-align:center;
-}
-
-button {
-    margin:auto;
-    color:white;
-    background-color:green;
-    border-radius:8px;
-    width:50%;
-}
-
-button:hover {
-    margin:auto;
-    color:black;
-    background-color:lightgreen;
-    border-radius:8px;
-    width:50%;
-}
-
-
-.download {
-     align:center;
-    text-align:center;
-    background-color:blue;
-    border:0px;
-    color:white;
-    position:fixed
-    left:0;
-    bottom:0;
-    padding:10px;
-    margin:10px;
-    text-decoration:none;
-    border-radius:8px;
-}
-
-input[type=checkbox] {
-    text-align: left;
-    width: 10%;
-}
-
-#aclass {
-    text-align:left;
-}
-
-#back {
-    text-align:center;
-    align:center;
+input[type="checkbox"]:checked + label:before {
+  width: 10px;
+  top: -5px;
+  left: 5px;
+  border-radius: 0;
+  opacity: 1;
+  border-top-color: transparent;
+  border-left-color: transparent;
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
 }
