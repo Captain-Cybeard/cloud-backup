@@ -22,16 +22,11 @@ __authors__ = ['Ryan Breitenfeldt', 'Noah Farris', 'Trevor Surface', 'Kyle Thoma
 
 
 urlpatterns = [
-    path('', views.Index.as_view(), name='index'),
-    ##############################################
-    path('dropbox-auth-start/', views.dropbox.dropbox_authentication_start), #Paths added to allow auth function to run
-    path('dropbox-auth-finish/', views.dropbox.dropbox_authentication_finish), #Paths added to allow auth finish to complete
-    ##############################################
-    path('google-auth-start/', views.google.GDriveDownloaded_authentication_start),
-    path('google-auth-finish/', views.google.GDriveDownloaded_authentication_finish),
-    ##############################################
-    path('files/', views.Files.as_view(), name='files'),
-    path('aws_login/', views.Aws_Login.as_view(), name='aws_login'),
-
-
+    path('', views.Index.as_view(), name='index'),  # Main app page
+    path('files/', views.Files.as_view(), name='files'),  # File selection page
+    path('dropbox-auth-start/', views.dropbox.dropbox_authentication_start),  # Authentication redirect for dropbox
+    path('dropbox-auth-finish/', views.dropbox.dropbox_authentication_finish),  # Authentication redirect for dropbox
+    path('google-auth-start/', views.google.GDriveDownloaded_authentication_start),  # Authentication redirect for google drive
+    path('google-auth-finish/', views.google.GDriveDownloaded_authentication_finish),  # Authentication redirect for google drive
+    path('aws_login/', views.Aws_Login.as_view(), name='aws_login'),  # Authentication redirect for AWS
 ]

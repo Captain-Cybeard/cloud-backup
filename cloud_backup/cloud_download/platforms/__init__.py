@@ -13,7 +13,7 @@ Authors:          Ryan Breitenfeldt
                         Trevor Surface
                         Kyle Thomas
 Class:              CptS 421/423 Fall '19 Spring '20
-University:    Washington State University Tri-CIties
+University:    Washington State University Tri-Cities
 """
 
 from . import dropbox_script, gDriveDownloader, Api_keys, aws

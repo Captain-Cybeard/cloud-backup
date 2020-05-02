@@ -1,3 +1,20 @@
+/*
+ * aws login stylesheet for cloud backup application
+ *
+ * Application:    Cloud Backup
+ * File:           /cloud_backup/cloud_download/static/cloud_download/aws_login_style.css
+ * Description:    css for AWS Login
+ * Language:       Python 3.8 Django 2.2
+ * Dev Env:        Linux x64
+ *
+ * Authors:        Ryan Breitenfeldt
+ *                 Noah Farris
+ *                 Trevor Surface
+ *                 Kyle Thomas
+ * Class:          CptS 421/423 Fall '19 Spring '20
+ * University:     Washington State University Tri-Cities
+ */
+
 body{
     font-family: 'Open Sans', sans-serif;
     background:#363636;

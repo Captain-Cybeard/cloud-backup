@@ -1,23 +1,27 @@
-"""cloud_backup URL Configuration
+#!/usr/bin/env python3
 
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/2.2/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+""" URL views for cloud backup application
+Application:    Cloud Backup
+File:           /cloud_backup/cloud_backup/urls.py
+Description:    Django root url directions
+Language:       Python 3.8 Django 2.2
+Dev Env:        Linux x64
+
+Authors:        Ryan Breitenfeldt
+                Noah Farris
+                Trevor Surface
+                Kyle Thomas
+Class:          CptS 421/423 Fall '19 Spring '20
+University:    Washington State University Tri-Cities
 """
+
 from django.contrib import admin
 from django.urls import include, path
 
+__authors__ = ['Ryan Breitenfeldt', 'Noah Farris', 'Trevor Surface', 'Kyle Thomas']
+
 urlpatterns = [
-    path('', include('cloud_download.urls')),
-    path('cloud/', include('cloud_download.urls')),
-    path('admin/', admin.site.urls),
+    path('', include('cloud_download.urls')),  # Empty path redirects to 'cloud_download' app
+    path('cloud/', include('cloud_download.urls')),  # /cloud/ path redirects to 'cloud_download' app
+    path('admin/', admin.site.urls),  # Default django admin
 ]

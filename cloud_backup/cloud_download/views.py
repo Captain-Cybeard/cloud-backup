@@ -1,19 +1,20 @@
 #!/usr/bin/env python3
 
 """ URL views for cloud backup application
-Application:     Cloud Backup
-File:                 /cloud_backup/cloud_download/views.py
+Application:    Cloud Backup
+File:           /cloud_backup/cloud_download/views.py
 Description:    Django Views / web pages
 Language:       Python 3.8 Django 2.2
-Dev Env:         Linux x64
+Dev Env:        Linux x64
 
-Authors:          Ryan Breitenfeldt
-                        Noah Farris
-                        Trevor Surface
-                        Kyle Thomas
-Class:              CptS 421/423 Fall '19 Spring '20
-University:    Washington State University Tri-Cities
+Authors:        Ryan Breitenfeldt
+                Noah Farris
+                Trevor Surface
+                Kyle Thomas
+Class:          CptS 421/423 Fall '19 Spring '20
+University:     Washington State University Tri-Cities
 """
+
 import ast
 from django.shortcuts import render, redirect
 from django.views import View
@@ -27,33 +28,33 @@ from django.contrib import messages
 
 __authors__ = ['Ryan Breitenfeldt', 'Noah Farris', 'Trevor Surface', 'Kyle Thomas']
 
-##############################
-global cloud, dropbox #Need to add the other platforms as needed
+# Globals to set the cloud platform
+global cloud, dropbox  # Need to add the other platforms as needed
 cloud = ""
 dropbox = platforms.dropbox_script.DropBox()
 google = platforms.gDriveDownloader.GDriveDownloader()
-##############################
+
 
 class Index(View):
+    """The index view is the main page where the user selects the platform."""
     index_template = 'cloud_download/index.html'
     platforms = ['google', 'dropbox', 'aws']
 
     def get(self, request):
+        """get method to display available platforms."""
         context = {'platforms': self.platforms}
         return render(request, self.index_template, context)
 
     def post(self, request):
+        """post method collects the user selected platform and invokes the correct platform object."""
         platform = request.POST['platform']
         global cloud
         if platform == 'google':
-            print(platform)  # DEBUGGING
             cloud = 'google'
             return redirect('google-auth-start/')
-        ############################
-        elif platform == 'dropbox': #The following are the recomended changes
-            cloud = 'dropbox' #For the Files class
-            return redirect('dropbox-auth-start/') #Calls the dropbox authentication
-        ############################
+        elif platform == 'dropbox':
+            cloud = 'dropbox'
+            return redirect('dropbox-auth-start/')
         elif platform == 'aws':
             cloud = 'aws'
             return redirect('aws_login/')
@@ -63,26 +64,18 @@ class Index(View):
 
         return redirect('aws_login/')
 
-####def flatten_list(x, flat_list):
-####    for file in x['files']:
-####        flat_list.append(file['path'])
-####    for dir in x['dirs']:
-####        flatten_list(x, flat_list)
-        
-#a = {'path': '', 'dirs': [{'path': '/grabfiles', 'dirs': [], 'files': [{'path': '/grabfiles/.git', 'name': '.git'}, {'
-#   ...: path': '/grabfiles/readme.md', 'name': 'readme.md'}, {'path': '/grabfiles/grabfiles.go', 'name': 'grabfiles.go'}]}], '
-#   ...: files': [{'path': '/get started with dropbox paper.url', 'name': 'get started with dropbox paper.url'}, {'path': '/get
-#   ...:  started with dropbox.pdf', 'name': 'get started with dropbox.pdf'}]}
-
 
 class Files(View):
+    """The Files class is the view for displaying the user's files"""
     template = 'cloud_download/files.html'
     success_template = 'cloud_download/success.html'
+
     def get(self, request):
-        ######################################
-        if cloud == 'dropbox': #Checks value set by Index class 
-            context = dropbox.dropbox_format_json #Uses dropbox class to see data
-        ######################################
+        """get will display the files to select for the user"""
+
+        # Determine platform and get files from that platform
+        if cloud == 'dropbox':
+            context = dropbox.dropbox_format_json
         elif cloud == 'google':
             context = google.GDriveDownloader_json
         elif cloud == 'aws':
@@ -93,9 +86,10 @@ class Files(View):
             aws_key= key_object.value_from_object(obj)
             aws = platforms.aws.aws(aws_key_id, aws_key)
             return render(request, self.template, {'files': aws.list_images_in_bucket()})
-
         return render(request, self.template, context)
+
     def post(self, request):
+        """post gathers what the user selected for files and downloads the files from the platform onto the server."""
         if cloud == 'aws':
             obj = aws_data.objects.first()
             key_id_object = aws_data._meta.get_field("aws_key_id")
@@ -113,7 +107,6 @@ class Files(View):
                 files_to_download.append(json.loads(json_acceptable_string))
             context['files'] = files_to_download
             return render(request, self.success_template, context)
-
         elif cloud == 'google':
             context = {}
             user_selection = request.POST.getlist('box')
@@ -128,13 +121,16 @@ class Files(View):
             return render(request, self.success_template, context)
 
 class Aws_Login(View):
+    """Aws_Login is the view for authenticating the user to AWS."""
     template_name = 'cloud_download/aws_login.html'
 
     def get(self, request):
+        """get displays the form to the user to authenticate to AWS"""
         form = AWS_AuthForm(request.POST)
         return render(request, self.template_name, {'form': form})
         
     def post(self, request):
+        """post takes in the user's credentials and uses those to authenticate to AWS"""
         aws_data.objects.all().delete()
         form = AWS_AuthForm(request.POST)
         if form.is_valid():
@@ -146,12 +142,10 @@ class Aws_Login(View):
                 return redirect("/cloud/files/")   
             except:
                 messages.error(request, 'Amazon Web Services Key or Key ID is incorrect!')                 
-
         else:
             form = AWS_AuthForm()
-
         return render(request, self.template_name, {'form': form})
 
-def index_redirect(request):
-    return redirect('index/')
+#def index_redirect(request):
+#    return redirect('index/')
 

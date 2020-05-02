@@ -9,7 +9,7 @@ Dev Env:         Linux x64
 
 Authors:          Trevor Surface
 Class:              CptS 421/423 Fall '19 Spring '20
-University:    Washington State University Tri-CIties
+University:    Washington State University Tri-Cities
 """
 
 import dropbox

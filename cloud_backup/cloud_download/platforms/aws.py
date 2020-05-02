@@ -1,7 +1,24 @@
+#!/usr/bin/env python3
+
+""" Dropbox Platform
+Application:     Cloud Backup
+File:                 /cloud_backup/cloud_download/platforms/dropbox_script.py
+Description:    Dropbox cloud platform
+Language:       Python 3.8 Django 2.2
+Dev Env:         Linux x64
+
+Authors:          Trevor Surface
+Class:              CptS 421/423 Fall '19 Spring '20
+University:    Washington State University Tri-Cities
+"""
+
 import boto3
 import tqdm
 import json
 import os
+
+__author__ = "Noah Farris"
+
 class aws():
 
     def __init__(self, access_key_id, access_key, region = 'us-west-2'):
