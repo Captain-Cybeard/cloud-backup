@@ -32,6 +32,7 @@ class aws():
             buckets_list.append(i['Name'])
         return buckets_list
 
+    #Todo: Add a todo comment
     def list_images_in_bucket(self, bucket_name = 'testbucket1293248523850923853'):
         bucket = self._s3_resource.Bucket(bucket_name)
         files_list = []
@@ -59,7 +60,7 @@ class aws():
     # this you can ignore it.
     def download_image(self, bucket_name, image_name):
         bucket = self._s3_resource.Bucket(bucket_name)
-        bucket.download_file(image_name, os.path.basename(image_name))
+        bucket.download_file(image_name, "/Users/noahfarris/Desktop/downloads" +"/" + os.path.basename(image_name))
         #self._s3_client.download_file(bucket_name, image_name, image_name)
 
 

@@ -21,14 +21,14 @@ University:    Washington State University Tri-Cities
     </head>
     <body>
         <h1>Cloud Backup Application</h1>
-        <h3>Files:</h3>
+        <h3>Downloaded Files:</h3>
         <div class="outer3">
             <div class = "table">
             <ul>
                 {% for file in files %}
                 <li><a>{{ file.name }}</a></li>
                 {% empty %}
-                    no files selected for downloading
+                <li><a> No files selected for downloading </a></li>
                 {% endfor %}
             </ul>
             </div>

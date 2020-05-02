@@ -16,7 +16,7 @@ import dropbox
 import json
 from django.shortcuts import redirect
 from . import Api_keys
-
+import ast 
 __author__ = "Trevor Surface"
 
 '''
@@ -72,7 +72,7 @@ class DropBox(object):
         self.dropbox_get_files_return = ""
         self.dropbox_get_files_list_result = []
         self.dropbox_entries_to_download_list = []
-        self.dropbox_download_path = "/mnt/c/Users/tsesu/Downloads/"
+        self.dropbox_download_path = "/Users/noahfarris/Desktop/downloads"
         self.dropbox_format_json = {'path': '', 'dirs':[], 'files':[]}
         self.dropbox_flat_json = {'files':[]}
         
@@ -166,13 +166,17 @@ class DropBox(object):
 
     def dropbox_download_selected_entries(self):
         for files in self.dropbox_entries_to_download_list:
-            if '.' not in files:
-                try: 
-                    self.dbx.files_download_to_file('C:/Downloads', files['path'])
-                except dropbox.files.DownloadError as e:
-                    raise e
+            if files == 'on':
+                print('False')
             else:
-                try: 
-                    self.dbx.files_download_zip_to_file('C:/Downloads', files['path'])
-                except dropbox.files.DownloadZipError as e:
-                    raise e
+                files = ast.literal_eval(files)
+                if '.' not in files:
+                    try: 
+                        self.dbx.files_download_to_file("/Users/noahfarris/Desktop/downloads" +"/" +files['name'], files['path'])
+                    except dropbox.files.DownloadError as e:
+                        raise e
+                else:
+                    try: 
+                        self.dbx.files_download_zip_to_file("/Users/noahfarris/Desktop/downloads" +"/" +files['name'], files['path'])
+                    except dropbox.files.DownloadZipError as e:
+                        raise e

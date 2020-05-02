@@ -36,7 +36,7 @@ google = platforms.gDriveDownloader.GDriveDownloader()
 
 class Index(View):
     index_template = 'cloud_download/index.html'
-    platforms = ['google', 'dropbox', 'aws']
+    platforms = ['google', 'dropbox', 'aws', 'citrix']
 
     def get(self, request):
         context = {'platforms': self.platforms}
@@ -78,6 +78,7 @@ class Index(View):
 class Files(View):
     template = 'cloud_download/files.html'
     success_template = 'cloud_download/success.html'
+    context = {}
     def get(self, request):
         ######################################
         if cloud == 'dropbox': #Checks value set by Index class 
@@ -96,6 +97,7 @@ class Files(View):
 
         return render(request, self.template, context)
     def post(self, request):
+        
         if cloud == 'aws':
             obj = aws_data.objects.first()
             key_id_object = aws_data._meta.get_field("aws_key_id")
@@ -107,11 +109,32 @@ class Files(View):
             user_selection = request.POST.getlist('box')
             files_to_download = []
             for file in user_selection:
-                file_name = ast.literal_eval(file)
-                aws.download_image('testbucket1293248523850923853', file_name['name'])
-                json_acceptable_string = file.replace("'", "\"")
-                files_to_download.append(json.loads(json_acceptable_string))
+                if file == 'on':
+                    print('False')
+                else:
+                    file_name = ast.literal_eval(file)
+                    aws.download_image('testbucket1293248523850923853', file_name['name'])
+                    json_acceptable_string = file.replace("'", "\"")
+                    files_to_download.append(json.loads(json_acceptable_string))
             context['files'] = files_to_download
+            return render(request, self.success_template, context)
+
+        elif cloud == 'dropbox':
+            files_to_download = {'files':[]}
+            files_to_download['files'] = request.POST.getlist('box')  # The user selected items
+            print(files_to_download['files'])
+            temp = []
+            context = {}
+            for file in files_to_download['files']:
+                if file == 'on':
+                    print('False')
+                else:
+                    file_name = ast.literal_eval(file)
+                    temp.append(file_name)
+
+            dropbox.dropbox_entries_to_download_list = files_to_download['files']
+            dropbox.dropbox_download_selected_entries()
+            context['files'] = temp
             return render(request, self.success_template, context)
 
         elif cloud == 'google':
@@ -120,7 +143,10 @@ class Files(View):
             files_to_download = []
 
             for file in user_selection:
-                files_to_download.append(ast.literal_eval(file))
+                if file == 'on':
+                    print('False')
+                else:
+                    files_to_download.append(ast.literal_eval(file))
             context['files'] = files_to_download
             if cloud == 'google':
                 google.GDriveDownloader_files_to_download = files_to_download
