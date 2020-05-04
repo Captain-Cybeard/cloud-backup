@@ -1,9 +1,15 @@
 import boto3
-import tqdm
 import json
 import os
-class aws():
 
+class aws():
+    '''
+        self._ec2_client: This is the EC2 Client
+        self._s3_client: This is the S3 Client
+        self._s3_resource: This is the S3 resource.
+
+        Parameters: access_key_id, access_key, region (default: 'us-west-2')
+    '''
     def __init__(self, access_key_id, access_key, region = 'us-west-2'):
         self._ec2_client = boto3.client('ec2', region_name = region, 
                         aws_access_key_id=access_key_id,
@@ -15,15 +21,16 @@ class aws():
                         aws_access_key_id=access_key_id,
                         aws_secret_access_key=access_key)
 
-    def __progress_indicator(self, vm_file):
-        def inner(bytes_amount):
-            vm_file.update(bytes_amount)
-        return inner
-
+    '''
+        Return list of available images as a JSON response.
+    '''
     def get_image_list(self):
         images = self._ec2_client.describe_images(Owners=['self'])
         return images
 
+    '''
+        Returns a list of all buckets that an AWS Account has access to.
+    '''
     def get_buckets(self):
         response = self._s3_client.list_buckets()
         buckets_json = response['Buckets']
@@ -32,8 +39,12 @@ class aws():
             buckets_list.append(i['Name'])
         return buckets_list
 
-    #Todo: Add a todo comment
-    def list_images_in_bucket(self, bucket_name = 'testbucket1293248523850923853'):
+    '''
+        Lists all images within a bucket and returns this as a list of dicts. 
+
+        Parameters: bucket_name
+    '''
+    def list_images_in_bucket(self, bucket_name):
         bucket = self._s3_resource.Bucket(bucket_name)
         files_list = []
         for my_bucket_object in bucket.objects.all():
@@ -41,7 +52,12 @@ class aws():
 
         data_set = files_list
         return data_set
+    '''
+        Exports an image to a bucket, you can access a list of images but if they aren't in a bucket
+        you cannot download them.
 
+        Parameters: image_id, role_name, bucket_name, format (default = 'VMDK')
+    '''
     def export_to_bucket(self, image_id, role_name, bucket_name, format='VMDK'):
         response = self._ec2_client.export_image(
             Description='string',
@@ -55,16 +71,12 @@ class aws():
         )
         return response
 
-    # For some reason the linter in VS Code underscores errors on both calls to self in this method,
-    # there is no error at runtime so I'm unsure of what's causing the red underlines. If you see 
-    # this you can ignore it.
-    def download_image(self, bucket_name, image_name):
+    '''
+        Given a bucket and a file name this will download that file.
+
+        Parameters: bucket_name, file_name
+    '''
+    def download_image(self, bucket_name, file_name):
         bucket = self._s3_resource.Bucket(bucket_name)
-        bucket.download_file(image_name, "/Users/noahfarris/Desktop/downloads" +"/" + os.path.basename(image_name))
-        #self._s3_client.download_file(bucket_name, image_name, image_name)
+        bucket.download_file(file_name, "/Users/noahfarris/Desktop/downloads" +"/" + os.path.basename(file_name))
 
-
-if __name__ == "__main__":
-    1==1
-    #print(aws.list_images_in_bucket())
-    #aws.download_image('testbucket1293248523850923853', 'FoodApp/FoodCell.swift')
