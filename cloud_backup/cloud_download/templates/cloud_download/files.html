@@ -31,7 +31,7 @@ University:    Washington State University Tri-Cities
                 <input type="checkbox" id = "{{ file }}" value="{{ file }}" name="box">
                 <label for="{{ file }}">{{ file.name }} </label>
                 {% empty %}
-                    no files found
+                    <label name="box" for="no_files">No files found... </label>
                 {% endfor %}
                 </div>
                 <input class = "button button1" type="submit" value="Download">

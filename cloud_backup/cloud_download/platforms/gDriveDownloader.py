@@ -16,6 +16,7 @@ University:    Washington State University Tri-CIties
 from __future__ import print_function
 import pickle
 import os.path
+import os
 import io
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaIoBaseDownload
@@ -67,6 +68,7 @@ class GDriveDownloader():
 
 # loops over GDriveDownloader_files_to_download and downloads each file to the working directory 
     def GDriveDownloader__download_File(self):
+        os.chdir("/Users/noahfarris/Desktop/downloads")
         for file_id in self.GDriveDownloader_files_to_download:
             request = self.GDriveDownloader_service.files().get_media(fileId=file_id["id"])
             fh = io.BytesIO()
@@ -77,7 +79,7 @@ class GDriveDownloader():
                 print("Download {}%".format(int(status.progress() * 100)))
             f = open(file_id["name"], 'wb')
             f.write(fh.getvalue())
-
+        os.chdir('/Users/noahfarris/Desktop/CAPSTONE_FINAL/git/cloud-backup/cloud_backup')
 # makes a query to google drive to get the files. it filters out folders and google propriatary file types.
     def GDriveDownloader_get_Files(self):
         page_token = None 
