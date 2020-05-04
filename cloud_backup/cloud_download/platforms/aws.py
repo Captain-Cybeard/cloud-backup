@@ -1,6 +1,7 @@
 import boto3
 import tqdm
-
+import json
+import os
 class aws():
 
     def __init__(self, access_key_id, access_key, region = 'us-west-2'):
@@ -31,6 +32,15 @@ class aws():
             buckets_list.append(i['Name'])
         return buckets_list
 
+    def list_images_in_bucket(self, bucket_name = 'testbucket1293248523850923853'):
+        bucket = self._s3_resource.Bucket(bucket_name)
+        files_list = []
+        for my_bucket_object in bucket.objects.all():
+            files_list.append({'name': my_bucket_object.key})
+
+        data_set = files_list
+        return data_set
+
     def export_to_bucket(self, image_id, role_name, bucket_name, format='VMDK'):
         response = self._ec2_client.export_image(
             Description='string',
@@ -48,12 +58,12 @@ class aws():
     # there is no error at runtime so I'm unsure of what's causing the red underlines. If you see 
     # this you can ignore it.
     def download_image(self, bucket_name, image_name):
-        file_object = self._s3_resource.Object(bucket_name, image_name)
-        filesize = file_object.content_length
-        with tqdm.tqdm(total=filesize, unit='B', unit_scale=True, desc=image_name) as vm_file:
-            self._s3_resource.download_file(bucket_name, image_name, image_name, Callback=self.__progress_indicator(vm_file))
+        bucket = self._s3_resource.Bucket(bucket_name)
+        bucket.download_file(image_name, os.path.basename(image_name))
+        #self._s3_client.download_file(bucket_name, image_name, image_name)
 
 
 if __name__ == "__main__":
-    aws = aws('AKIAIFRUMP75Q3QQITOQ', 'wpdTTI1E+CYbfb3RfXcIAtJ8j8QEeUIyys9xyci2')
-    print(aws.get_buckets())
+    1==1
+    #print(aws.list_images_in_bucket())
+    #aws.download_image('testbucket1293248523850923853', 'FoodApp/FoodCell.swift')

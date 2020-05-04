@@ -14,7 +14,7 @@ Authors:          Ryan Breitenfeldt
 Class:              CptS 421/423 Fall '19 Spring '20
 University:    Washington State University Tri-Cities
 """
-
+import ast
 from django.shortcuts import render, redirect
 from django.views import View
 from . import platforms
@@ -22,6 +22,9 @@ from .forms import AWS_AuthForm
 from django import forms
 import json
 from .models import aws_data
+import ast
+from django.contrib import messages
+
 __authors__ = ['Ryan Breitenfeldt', 'Noah Farris', 'Trevor Surface', 'Kyle Thomas']
 
 ##############################
@@ -52,8 +55,7 @@ class Index(View):
             return redirect('dropbox-auth-start/') #Calls the dropbox authentication
         ############################
         elif platform == 'aws':
-            print(platform)
-            #cloud = platforms.aws.aws(aws_access_key_id, aws_access_key)
+            cloud = 'aws'
             return redirect('aws_login/')
         else:
             print("Unsupported platform")
@@ -76,7 +78,6 @@ class Index(View):
 class Files(View):
     template = 'cloud_download/files.html'
     success_template = 'cloud_download/success.html'
-    #global cloud
     def get(self, request):
         ######################################
         if cloud == 'dropbox': #Checks value set by Index class 
@@ -84,37 +85,47 @@ class Files(View):
         ######################################
         elif cloud == 'google':
             context = google.GDriveDownloader_json
-        return render(request, self.template, context)
+        elif cloud == 'aws':
+            obj = aws_data.objects.first()
+            key_id_object = aws_data._meta.get_field("aws_key_id")
+            key_object = aws_data._meta.get_field("aws_key")
+            aws_key_id = key_id_object.value_from_object(obj)
+            aws_key= key_object.value_from_object(obj)
+            aws = platforms.aws.aws(aws_key_id, aws_key)
+            return render(request, self.template, {'files': aws.list_images_in_bucket()})
 
+        return render(request, self.template, context)
     def post(self, request):
-        context = {}
-        user_selection = request.POST.getlist('box')
-        files_to_download = []
-        for file in user_selection:
-            json_acceptable_string = file.replace("'", "\"")
-            files_to_download.append(json.loads(json_acceptable_string))
-        context['files'] = files_to_download
-        dropbox.dropbox_entries_to_download_list = context['files']
-        dropbox.dropbox_download_selected_entries()
-        print(context)
-        return render(request, self.success_template, context)
+        if cloud == 'aws':
+            obj = aws_data.objects.first()
+            key_id_object = aws_data._meta.get_field("aws_key_id")
+            key_object = aws_data._meta.get_field("aws_key")
+            aws_key_id = key_id_object.value_from_object(obj)
+            aws_key= key_object.value_from_object(obj)
+            aws = platforms.aws.aws(aws_key_id, aws_key)
+            context = {}
+            user_selection = request.POST.getlist('box')
+            files_to_download = []
+            for file in user_selection:
+                file_name = ast.literal_eval(file)
+                aws.download_image('testbucket1293248523850923853', file_name['name'])
+                json_acceptable_string = file.replace("'", "\"")
+                files_to_download.append(json.loads(json_acceptable_string))
+            context['files'] = files_to_download
+            return render(request, self.success_template, context)
 
+        elif cloud == 'google':
+            context = {}
+            user_selection = request.POST.getlist('box')
+            files_to_download = []
 
-class Aws_Buckets(View):
-    template = 'cloud_download/aws_buckets.html'
-
-    def get(self, request):
-        obj = aws_data.objects.first()
-        key_id_object = aws_data._meta.get_field("aws_key_id")
-        key_object = aws_data._meta.get_field("aws_key")
-
-        aws_key_id = key_id_object.value_from_object(obj)
-        aws_key= key_object.value_from_object(obj)
-
-        aws = platforms.aws.aws(aws_key_id, aws_key)
-        buckets = aws.get_buckets()
-        context = {'files': buckets}
-        return render(request, self.template, context)
+            for file in user_selection:
+                files_to_download.append(ast.literal_eval(file))
+            context['files'] = files_to_download
+            if cloud == 'google':
+                google.GDriveDownloader_files_to_download = files_to_download
+                google.GDriveDownloader__download_File()
+            return render(request, self.success_template, context)
 
 class Aws_Login(View):
     template_name = 'cloud_download/aws_login.html'
@@ -122,6 +133,7 @@ class Aws_Login(View):
     def get(self, request):
         form = AWS_AuthForm(request.POST)
         return render(request, self.template_name, {'form': form})
+        
     def post(self, request):
         aws_data.objects.all().delete()
         form = AWS_AuthForm(request.POST)
@@ -131,10 +143,9 @@ class Aws_Login(View):
             aws_key = form.cleaned_data.get('aws_key')
             try:
                 platforms.aws.aws(aws_key_id, aws_key).get_image_list()
-                return redirect("/cloud/aws_buckets/")   
+                return redirect("/cloud/files/")   
             except:
-                forms.ValidationError("Incorrect username or password")    
-                 
+                messages.error(request, 'Amazon Web Services Key or Key ID is incorrect!')                 
 
         else:
             form = AWS_AuthForm()

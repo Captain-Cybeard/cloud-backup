@@ -132,7 +132,7 @@ class DropBox(object):
         
         For Admin's:
             The redirect_uri parameter needs to be set in both the urls.py/urlpatterns as
-            a path, which calls teh dropbox_authetication_finish function. Additionally
+            a path, which calls the dropbox_authetication_finish function. Additionally
             in the app console for dropbox (https://dropbox.com/developer) the same redirect_uri
             needs to be specified for the generated application. 
         '''
