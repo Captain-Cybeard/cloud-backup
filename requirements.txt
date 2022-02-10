@@ -13,7 +13,7 @@ configobj==5.0.6
 constantly==15.1.0
 cryptography==2.3
 #distro-info==0.18ubuntu0.18.04.1
-Django==2.2.11
+Django==2.2.27
 dropbox==9.4.0
 flask==1.1.2
 google-api-python-client==1.7.11
