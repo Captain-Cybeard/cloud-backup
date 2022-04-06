@@ -58,7 +58,7 @@ six==1.14.0
 sqlparse==0.3.1
 ssh-import-id==5.7
 #systemd-python==234 Error no libsystemd-journal.pc
-Twisted==17.9.0
+Twisted==22.2.0
 #ufw==0.36 
 #unattended-upgrades==0.1
 uritemplate==3.0.1
